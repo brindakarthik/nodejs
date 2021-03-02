@@ -16,9 +16,10 @@ app.use("/save",function(req, res, next){
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("demo");
-        var myobj = { name: name, email: email };
+        var myobj = { name: name, email: email,_id:email };
         dbo.collection("employee").insertOne(myobj, function(err, res) {
-          if (err) throw err;
+          if (err) 
+res.send(err);
           console.log("1 document inserted");
           db.close();
         });
@@ -31,8 +32,22 @@ app.use("/save",function(req, res, next){
 app.post("/save",function(req,res){
     var name=req.body.uname
     var email=req.body.email
-    res.send("welcome "+name+" !!!email id "+email)
-   
+var x=""
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var query = { address: "Park Lane 38" };
+  dbo.collection("customers").find(query).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+x+=result+"<br> "
+    db.close();
+  });
+});
+
+
+    x="welcome "+name+" !!!email id "+email
+res=send(x)   
 })
 
 app.listen(3000)
