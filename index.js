@@ -35,12 +35,17 @@ app.post("/save",function(req,res){
 var x=""
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
-  var query = { address: "Park Lane 38" };
-  dbo.collection("customers").find(query).toArray(function(err, result) {
+  var dbo = db.db("demo");
+  
+  dbo.collection("employee").find({}).toArray(function(err, result) {
     if (err) throw err;
-    console.log(result);
-x+=result+"<br> "
+     result.forEach((element, index, array) => {
+    x+=element.name+"&emsp"; // 100, 200, 300
+    x+=element.email+"<br>"; // 0, 1, 2
+  // same myArray object 3 times
+});
+   
+
     db.close();
   });
 });
